@@ -81,18 +81,18 @@ void Engine::End()
   GLRender::Instance().End();
 }
 
-GLTexture* Engine::GetTexture(const std::string& filename)
+std::shared_ptr<GLTexture> Engine::GetTexture(const std::string& filename)
 {
   auto it = textureMap_.find(filename);
   if (it == textureMap_.end())
   {
-    auto texture = std::make_unique<GLTexture>();
+    auto texture = std::make_shared<GLTexture>();
     texture->LoadFromFile(filename);
     auto [iterator, _] = textureMap_.insert({filename, std::move(texture)});
     it = iterator;
   }
   auto& [_, texture] = *it;
-  return texture.get();
+  return texture;
 }
 
 void Engine::ResizeFrameBuffer(const glm::vec<2, int>& windowSize)

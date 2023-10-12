@@ -8,6 +8,7 @@
 #include "ui/properties_viewport.h"
 #include "ui/scene_graph_viewport.h"
 #include "ui/scene_viewport.h"
+#include "ui/spritemap_window.h"
 
 #include <algorithm>
 #include <string>
@@ -15,6 +16,7 @@
 static const std::string SCENE_WINDOW_NAME = "Scene";
 static const std::string SCENE_GRAPH_WINDOW_NAME = "Scene Graph";
 static const std::string PROPERTIES_WINDOW_NAME = "Properties";
+static const std::string SPRITEMAP_WINDOW_NAME = "SpriteMap";
 
 namespace
 {
@@ -85,6 +87,9 @@ static void CreateDockSpace(std::vector<std::unique_ptr<Viewport>>& viewports)
 
     ImGui::DockBuilderDockWindow(SCENE_GRAPH_WINDOW_NAME.c_str(), sceneGraph);
     viewports.push_back(std::move(std::make_unique<SceneGraphViewport>(SCENE_GRAPH_WINDOW_NAME)));
+
+    // Aditional Windows Will be showed only when requested
+    viewports.push_back(std::move(std::make_unique<SpriteMapWindow>(SPRITEMAP_WINDOW_NAME)));
   }
   ImGui::DockSpace(dockspaceId, ImVec2(0.0f, 0.0f), dockspaceFlags);
   ImGui::End();

@@ -15,7 +15,7 @@ public:
   void Run();
   void End();
 
-  GLTexture* GetTexture(const std::string& filename);
+  std::shared_ptr<GLTexture> GetTexture(const std::string& filename);
 
   std::vector<std::shared_ptr<Entity>> GetEntities() const
   {
@@ -40,6 +40,6 @@ public:
 private:
   bool isRunning_{false};
   std::vector<std::shared_ptr<Entity>> entities_;
-  std::unordered_map<std::string, std::unique_ptr<GLTexture>> textureMap_;
+  std::unordered_map<std::string, std::shared_ptr<GLTexture>> textureMap_;
   Camera mainCamera_;
 };

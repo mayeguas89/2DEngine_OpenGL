@@ -12,6 +12,7 @@ add_executable(
   ui/scene_graph_viewport.cc
   ui/scene_viewport.cc
   ui/properties_viewport.cc
+  ui/spritemap_window.cc
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE 
