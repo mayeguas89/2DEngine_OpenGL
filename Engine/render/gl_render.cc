@@ -50,8 +50,24 @@ void GLRender::Init()
 
 void GLRender::Draw()
 {
-  UI::Instance().Update();
+  // Render Agains texture
+  glBindFramebuffer(GL_FRAMEBUFFER, Engine::Instance().frameBufferId_);
+  glViewport(0, 0, windowSize_.x, windowSize_.y);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  unsigned int draw_buf = GL_COLOR_ATTACHMENT0;
+  glDrawBuffers(1, &draw_buf);
+
   // Draw();
+  const auto& entities = Engine::Instance().GetEntities();
+  std::for_each(entities.begin(), entities.end(), [](auto& entity) { entity->Draw(); });
+
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
+  glViewport(0, 0, windowSize_.x, windowSize_.y);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  draw_buf = GL_COLOR_ATTACHMENT0;
+  glDrawBuffers(1, &draw_buf);
+
+  UI::Instance().Update();
 }
 
 void GLRender::End()
@@ -94,4 +110,5 @@ void GLRender::WindowResizeCallback(int width, int height)
   glViewport(0, 0, width, height);
   glfwSetWindowSize(window_.get(), width, height);
   spdlog::info("Window resized to {}, {}", width, height);
+  Engine::Instance().ResizeFrameBuffer(windowSize_);
 }

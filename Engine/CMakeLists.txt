@@ -1,8 +1,13 @@
 add_executable(
   ${PROJECT_NAME} 
   main.cc
+  common/camera.cc
   common/engine.cc
+  common/entity.cc
+  common/sprite.cc
   render/gl_render.cc
+  render/gl_texture.cc
+  render/render_program.cc
   ui/ui.cc
   ui/scene_graph_viewport.cc
   ui/scene_viewport.cc
@@ -15,6 +20,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
   ${GLFW_SOURCE_DIR}/include
   ${CMAKE_SOURCE_DIR}/external/imgui
   ${CMAKE_SOURCE_DIR}/external/imgui/backends
+  ${CMAKE_SOURCE_DIR}/external/stb
 )
 
 target_link_libraries(${PROJECT_NAME} 
@@ -26,4 +32,9 @@ target_link_libraries(${PROJECT_NAME}
  Imgui
  spdlog::spdlog
 #  nlohmann_json::nlohmann_json
+)
+
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/Assets ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/Assets
 )

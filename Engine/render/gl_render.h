@@ -44,6 +44,11 @@ public:
     return window_.get();
   }
 
+  float GetAspectRatio() const
+  {
+    return static_cast<float>(windowSize_.x / static_cast<float>(windowSize_.y));
+  }
+
 private:
   struct GLFWwindowDeleter
   {
